@@ -2,7 +2,7 @@ name: hello-world
 on:
   push:
     tags:
-        - '*'
+        - '**'
 jobs:
   my-job:
     runs-on: ubuntu-latest
