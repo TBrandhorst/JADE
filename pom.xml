@@ -10,16 +10,18 @@
 	
 	<licenses>
 	  <license>
-	     <name>The Apache License, Version 2.0</name>
-	     <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+	    <name>MIT License</name>
+	    <url>http://www.opensource.org/licenses/mit-license.php</url>
 	  </license>
 	</licenses>
 
+
 	<developers>
 	  <developer>
-	     <id>Enflex.it</id>
 	     <name>Enflexit</name>
 	     <email>christian.derksen@uni-due.de</email>
+	     <organization>Enflexit</organization>
+      	 <organizationUrl>https://www.enflex.it/</organizationUrl>
 	  </developer>
 	</developers>
 	
@@ -154,7 +156,7 @@
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
+						<artifactId>maven -javadoc-plugin</artifactId>
 						<version>3.3.0</version>
 						<configuration>
 							<doclint>none</doclint>
