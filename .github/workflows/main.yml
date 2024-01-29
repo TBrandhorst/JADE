@@ -12,6 +12,7 @@ jobs:
       with: # running setup-java again overwrites the settings.xml
         distribution: 'temurin'
         java-version: '8'
+        token: ${{ secrets.TOKEN_GIT }}
     - name: build artifact
       run: mvn clean package
     - name: Prepare for publishing to Mavencnetral
