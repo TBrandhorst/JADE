@@ -1,0 +1,78 @@
+name: SVN to GitHub Mirror
+on:
+  workflow_dispatch:
+      inputs:
+        logLevel:
+          description: 'Log level'
+          required: true
+          default: 'warning'
+        environment:
+          description: 'Umgebung, in der der Workflow ausgeführt wird'
+          required: true
+          default: 'production'
+          
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      # Schritt 1: Checkout master branch
+      - name: Checkout master branch
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      # Schritt 2: Copy editAuthorfile Jar
+      - name: Copy editAuthorfile.jar from master
+        run: |
+          mkdir -p ${{ github.workspace }}/temp_jars
+          cp ${{ github.workspace }}/update/editAuthorfile.jar ${{ github.workspace }}/temp_jars/
+
+      # Schritt 3: Checkout JADE-SVN-Tilab branch in ein separates Verzeichnis
+      - name: Checkout JADE-SVN-Tilab branch
+        uses: actions/checkout@v2
+        with:
+          ref: JADE-SVN-Tilab
+          path: jade_svn_tilab
+          
+      - name: Install SVN
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y subversion
+      
+      - name: Install Git and git-svn
+        run: |
+            sudo apt-get update && sudo apt-get install -y git-svn
+            
+      - name: Create Author-File
+        run: |
+            cd jade_svn_tilab
+            mkdir jadeSVN && cd jadeSVN;
+            svn co https://jade.tilab.com/svn/jade/trunk/;
+            cd trunk;
+            svn info --show-item revision > actRevNumber.txt;
+            svn log --xml --quiet | grep author | sort -u | \
+                        perl -pe 's/.*>(.*?)<.*/$1 = /' > authors.txt;
+            cd ..;
+            cd ..;
+            find jadeSVN/trunk/authors.txt -type f -print0 | xargs -0 mv -t .;
+            find jadeSVN/trunk/actRevNumber.txt -type f -print0 | xargs -0 mv -t .;
+            rm -rf jadeSVN;
+            java -jar ${{ github.workspace }}/temp_jars//editAuthorfile.jar  $PWD/authors.txt
+            
+      - name: Sync with SVN repository
+        run: |
+            git config svn.authorsfile $PWD/authors.txt;
+            RevNumber=$(grep -Eo '[0-9\.]+' actRevNumber.txt);
+            sub=20;
+            mkdir jadeSVN;
+            cd jadeSVN;
+            git svn init https://jade.tilab.com/svn/jade/trunk/;
+            RevNumber=$(($RevNumber-$sub));
+            git svn fetch -r$RevNumber:HEAD;
+            git remote add JADE-SVN-TILAB https://github.com/TBrandhorst/JADE.gitt;
+            #git fetch JADE-SVN-TILAB;
+            git svn rebase
+      - name: Push changes to GitHub
+        run: git push origin JADE-SVN-Tilab --force
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
