@@ -14,6 +14,9 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    container: 
+      image: debian:latest # Oder ein anderes Image, das Ihren Anforderungen entspricht
+  
     steps:
       # Schritt 1: Checkout master branch
       - name: Checkout master branch
