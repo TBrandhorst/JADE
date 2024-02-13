@@ -17,7 +17,7 @@ jobs:
     steps:
       # Schritt 1: Checkout master branch
       - name: Checkout master branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: master
 
@@ -29,7 +29,7 @@ jobs:
 
       # Schritt 3: Checkout JADE-SVN-Tilab branch in ein separates Verzeichnis
       - name: Checkout JADE-SVN-Tilab branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: JADE-SVN-TILAB
           path: jade_svn_tilab
