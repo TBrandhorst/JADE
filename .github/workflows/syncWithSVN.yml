@@ -28,7 +28,7 @@ jobs:
       - name: Copy editAuthorfile.jar from master
         run: |
           mkdir -p /temp_jars
-          cp /github/workspace/Update/editAuthorfile.jar/Update/editAuthorfile.jar /temp_jars/
+          cp /github/workspace/Update/editAuthorfile.jar /temp_jars/
 
       # Schritt 3: Checkout JADE-SVN-Tilab branch in ein separates Verzeichnis
       - name: Checkout JADE-SVN-Tilab branch
