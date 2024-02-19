@@ -13,10 +13,7 @@ on:
           
 jobs:
   sync:
-    runs-on: ubuntu-latest
-    container: 
-      image: debian:bullseye # Oder ein anderes Image, das Ihren Anforderungen entspricht
-  
+    runs-on: ubuntu-20.04 
     steps:
       # Schritt 1: Checkout master branch
       - name: Checkout master branch
@@ -40,8 +37,8 @@ jobs:
 
       - name: Install SVN
         run: |
-          apt-get update
-          apt-get install -y subversion
+          sudo apt-get update
+          sudo apt-get install -y subversion
           if ! command -v svn &> /dev/null
           then
               echo "SVN installation failed"
@@ -52,8 +49,8 @@ jobs:
 
       - name: Install Git and git-svn
         run: |
-            apt-get update 
-            apt-get install -y git-svn
+            sudo apt-get update 
+            sudo apt-get install -y git-svn
             if ! command -v git-svn &> /dev/null
             then
                 echo "git-svn installation failed"
