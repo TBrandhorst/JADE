@@ -56,7 +56,8 @@ jobs:
           svn cleanup
           ls -d */
           svn --trust-server-cert update
-          svn co https://jade.tilab.com/svn/jade/trunk/
+          svn co https://jade.tilab.com/svn/jade/trunk/ .
+          ls -d */
           cd trunk
           svn info --show-item revision > actRevNumber.txt
           svn log --xml --quiet | grep author | sort -u | perl -pe 's/.*>(.*?)<.*/$1 = /' > authors.txt
