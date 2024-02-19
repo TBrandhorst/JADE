@@ -53,10 +53,12 @@ jobs:
           SVN_USER: ${{ secrets.JADE_USER }}
           SVN_PASSWORD: ${{ secrets.JADE_PASSWORD }}
         run: |
+          svn info
           svn cleanup
           ls -d */
           svn --trust-server-cert update
           svn co https://jade.tilab.com/svn/jade/trunk/ .
+          svn info
           ls -d */
           cd trunk
           svn info --show-item revision > actRevNumber.txt
