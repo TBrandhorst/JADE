@@ -53,7 +53,6 @@ jobs:
           SVN_USER: ${{ secrets.JADE_USER }}
           SVN_PASSWORD: ${{ secrets.JADE_PASSWORD }}
         run: |
-          mkdir jadeSVN && cd jadeSVN
           svn cleanup
           ls -d */
           svn --trust-server-cert update
