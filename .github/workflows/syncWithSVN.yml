@@ -48,26 +48,29 @@ jobs:
             apt-get update 
             apt-get install -y git-svn
             
-      - name: Create Author-File
+      - name: Checkout SVN repository
         env:
           SVN_USER: ${{ secrets.JADE_USER }}
           SVN_PASSWORD: ${{ secrets.JADE_PASSWORD }}
         run: |
-            mkdir jadeSVN
-            ls -d */
-            svn --trust-server-cert update
-            svn co --username "$SVN_USER" --password "$SVN_PASSWORD" https://jade.tilab.com/svn/jade/trunk/ jadeSVN
-            cd trunk;
-            svn info --show-item revision > actRevNumber.txt;
-            svn log --xml --quiet | grep author | sort -u | \
-                        perl -pe 's/.*>(.*?)<.*/$1 = /' > authors.txt;
-            cd ..;
-            cd ..;
-            find jadeSVN/trunk/authors.txt -type f -print0 | xargs -0 mv -t .;
-            find jadeSVN/trunk/actRevNumber.txt -type f -print0 | xargs -0 mv -t .;
-            rm -rf jadeSVN;
-            java -jar ${{ github.workspace }}/temp_jars//editAuthorfile.jar  $PWD/authors.txt
-            
+          mkdir jadeSVN && cd jadeSVN
+          svn cleanup
+          ls -d */
+          svn --trust-server-cert update
+          svn co https://jade.tilab.com/svn/jade/trunk/
+          cd trunk
+          svn info --show-item revision > actRevNumber.txt
+          svn log --xml --quiet | grep author | sort -u | perl -pe 's/.*>(.*?)<.*/$1 = /' > authors.txt
+          cd ../..
+
+      - name: Move files and directories
+        run: |
+          find jadeSVN/trunk/authors.txt -type f -print0 | xargs -0 mv -t .
+          find jadeSVN/trunk/actRevNumber.txt -type f -print0 | xargs -0 mv -t .
+          rm -rf jade
+  
+      - name: Run Java application
+        run: java -jar editAuthorfile.jar $PWD/authors.txt das
       - name: Sync with SVN repository
         run: |
             git config svn.authorsfile $PWD/authors.txt;
