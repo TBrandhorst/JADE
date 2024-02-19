@@ -47,6 +47,16 @@ jobs:
         run: |
             apt-get update 
             apt-get install -y git-svn
+
+
+      - name: Check if SVN is installed
+        run: |
+          if ! command -v svn &> /dev/null
+          then
+              echo "SVN is not installed"
+          else
+              svn --version
+          fi
             
       - name: Checkout SVN repository
         env:
