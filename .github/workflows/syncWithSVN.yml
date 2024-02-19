@@ -23,13 +23,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: master
-          path: JADE/master
 
       # Schritt 2: Copy editAuthorfile Jar
       - name: Copy editAuthorfile.jar from master
         run: |
           mkdir -p /temp_jars
-          cp JADE/Update/editAuthorfile.jar /temp_jars/
+          cp JADE/master/Update/editAuthorfile.jar /temp_jars/
 
       # Schritt 3: Checkout JADE-SVN-Tilab branch in ein separates Verzeichnis
       - name: Checkout JADE-SVN-Tilab branch
