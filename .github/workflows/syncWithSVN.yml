@@ -52,12 +52,10 @@ jobs:
         env:
           SVN_USER: ${{ secrets.JADE_USER }}
           SVN_PASSWORD: ${{ secrets.JADE_PASSWORD }}
-        run: |
-          svn info
-          svn cleanup
-          ls -d */
+        run: |        
           svn --trust-server-cert update
           svn co https://jade.tilab.com/svn/jade/trunk/ .
+          svn info
           svn info
           ls -d */
           cd trunk
