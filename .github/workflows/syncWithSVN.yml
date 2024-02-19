@@ -54,7 +54,8 @@ jobs:
           SVN_PASSWORD: ${{ secrets.JADE_PASSWORD }}
         run: |
             mkdir jadeSVN
-            cd jadeSVN;
+            cd jadeSVN
+            find . -type d
             svn --trust-server-cert update
             svn co --username "$SVN_USER" --password "$SVN_PASSWORD" https://jade.tilab.com/svn/jade/trunk/ .
             cd trunk;
