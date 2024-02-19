@@ -24,10 +24,6 @@ jobs:
         with:
           ref: master
           path: JADE
-          
-      - name: Print directories
-        run: |
-          ls -d */
 
       # Schritt 2: Copy editAuthorfile Jar
       - name: Copy editAuthorfile.jar from master
@@ -44,13 +40,13 @@ jobs:
           
       - name: Install SVN
         run: |
-          sudo apt-get update
-          sudo apt-get install -y subversion
+          apt-get update
+          apt-get install -y subversion
       
       - name: Install Git and git-svn
         run: |
-            sudo apt-get update 
-            sudo apt-get install -y git-svn
+            apt-get update 
+            apt-get install -y git-svn
             
       - name: Create Author-File
         run: |
