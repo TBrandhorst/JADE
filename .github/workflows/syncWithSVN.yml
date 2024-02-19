@@ -23,6 +23,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: master
+          path: JADE/master
 
       # Schritt 2: Copy editAuthorfile Jar
       - name: Copy editAuthorfile.jar from master
