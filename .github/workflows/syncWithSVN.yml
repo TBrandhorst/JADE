@@ -24,6 +24,11 @@ jobs:
         with:
           ref: master
 
+      
+      - name: Print directories
+        run: |
+          ls -d */
+
       # Schritt 2: Copy editAuthorfile Jar
       - name: Copy editAuthorfile.jar from master
         run: |
