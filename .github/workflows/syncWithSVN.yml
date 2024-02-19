@@ -25,8 +25,8 @@ jobs:
       # Schritt 2: Copy editAuthorfile Jar
       - name: Copy editAuthorfile.jar from master
         run: |
-          mkdir -p /temp_jars
-          cp JADE/Update/editAuthorfile.jar /temp_jars/
+          sudo mkdir -p /temp_jars
+          sudo cp JADE/Update/editAuthorfile.jar /temp_jars/
 
       # Schritt 3: Checkout JADE-SVN-Tilab branch in ein separates Verzeichnis
       - name: Checkout JADE-SVN-Tilab branch
@@ -64,7 +64,7 @@ jobs:
           SVN_USER: ${{ secrets.JADE_USER }}
           SVN_PASSWORD: ${{ secrets.JADE_PASSWORD }}
         run: |        
-          mkdir jadeSVN
+          sudo mkdir jadeSVN
           svn --trust-server-cert update
           svn co https://jade.tilab.com/svn/jade/trunk/ jadeSVN
           svn info
