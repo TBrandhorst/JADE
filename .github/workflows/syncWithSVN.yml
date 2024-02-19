@@ -56,7 +56,7 @@ jobs:
             cd jade_svn_tilab
             mkdir jadeSVN && cd jadeSVN;
             svn --trust-server-cert update
-            svn co --username "$SVN_USER" --password "$SVN_PASSWORD" https://jade.tilab.com/svn/jade/trunk/;
+            svn co --username "$SVN_USER" --password "$SVN_PASSWORD" https://jade.tilab.com/svn/jade/trunk/ .
             cd trunk;
             svn info --show-item revision > actRevNumber.txt;
             svn log --xml --quiet | grep author | sort -u | \
