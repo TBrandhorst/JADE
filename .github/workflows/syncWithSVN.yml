@@ -71,6 +71,8 @@ jobs:
         run: |
           find $ACT_REV_NUMBER_PATH  -type f -print0 | xargs -0 mv -t .
           find $AUTHORS_PATH  -type f -print0 | xargs -0 mv -t .
+          find "$ACT_REV_NUMBER_PATH" -type f -exec mv {} . \;
+          find "$AUTHORS_PATH" -type f -exec mv {} . \;
           rm -rf jade
   
       - name: Run Java application
