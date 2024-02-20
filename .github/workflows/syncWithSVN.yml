@@ -15,6 +15,14 @@ jobs:
   sync:
     runs-on: macos-latest
     steps:
+
+      - name: Set up JAVA 
+        uses: actions/setup-java@v3
+        with: # running setup-java overwrites the settings.xml
+              # For building java version 8, required by JADE
+          distribution: 'temurin'
+          java-version: '11'
+          
       # Schritt 1: Checkout master branch
       - name: Checkout master branch
         uses: actions/checkout@v4
