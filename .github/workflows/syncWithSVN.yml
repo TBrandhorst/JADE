@@ -53,7 +53,7 @@ jobs:
         run: |        
           mkdir jadeSVN
           svn --trust-server-cert update
-          svn co https://jade.tilab.com/svn/jade/trunk/ jadeSVN
+          svn co https://jade.tilab.com/svn/jade/trunk
           svn info
           ls -d */
           cd trunk
