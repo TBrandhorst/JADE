@@ -27,7 +27,8 @@ jobs:
         run: |
           mkdir -p $GITHUB_WORKSPACE/temp_jars
           cp JADE/Update/editAuthorfile.jar $GITHUB_WORKSPACE/temp_jars
-
+          echo "EDIT_AUTHORFILE_JAR_PATH=$GITHUB_WORKSPACE/temp_jars/editAuthorfile.jar" >> $GITHUB_ENV
+          
       # Schritt 3: Checkout JADE-SVN-Tilab branch in ein separates Verzeichnis
       - name: Checkout JADE-SVN-Tilab branch
         uses: actions/checkout@v4
@@ -53,22 +54,24 @@ jobs:
           sudo svn --username $SVN_USER --password $SVN_PASSWORD --trust-server-cert checkout https://jade.tilab.com/svn/jade/trunk/ .
           svn info https://jade.tilab.com/svn/jade/trunk/ --trust-server-cert | grep '^Revision:' | awk '{print $2}' > actRevNumber.txt
           svn log --trust-server-cert --xml --quiet | grep author | sort -u | perl -pe 's/.*>(.*?)<.*/$1 = /' > authors.txt
+          echo "ACT_REV_NUMBER_PATH=$(pwd)/jadeSVN/actRevNumber.txt" >> $GITHUB_ENV
+          echo "AUTHORS_PATH=$(pwd)/jadeSVN/authors.txt" >> $GITHUB_ENV
           cd ../..
           ls -d */
 
       - name: Move files and directories
         run: |
-          find jadeSVN/trunk/authors.txt -type f -print0 | xargs -0 mv -t .
-          find jadeSVN/trunk/actRevNumber.txt -type f -print0 | xargs -0 mv -t .
+          find $ACT_REV_NUMBER_PATH  -type f -print0 | xargs -0 mv -t .
+          find $AUTHORS_PATH  -type f -print0 | xargs -0 mv -t .
           rm -rf jade
   
       - name: Run Java application
-        run: java -jar editAuthorfile.jar $PWD/authors.txt das
+        run: java -jar editAuthorfile.jar $EDIT_AUTHORFILE_JAR_PATH 
 
       - name: Sync with SVN repository
         run: |
-            git config svn.authorsfile $PWD/authors.txt
-            RevNumber=$(grep -Eo '[0-9\.]+' actRevNumber.txt)
+            git config svn.authorsfile $AUTHORS_PATH
+            RevNumber=$(grep -Eo '[0-9\.]+' $ACT_REV_NUMBER_PATH)
             sub=20
             mkdir jadeSVN
             cd jadeSVN
@@ -78,7 +81,7 @@ jobs:
             git remote add JADE-SVN-TILAB https://github.com/TBrandhorst/JADE.git
             git svn rebase
 
-      - name: Push changes to GitHub
-        run: git push origin JADE-SVN-Tilab --force
-        env:
-            GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
+    #  - name: Push changes to GitHub
+      #  run: git push origin JADE-SVN-Tilab --force
+      #  env:
+         #   GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
