@@ -53,10 +53,10 @@ jobs:
           sudo svn --username $SVN_USER --password $SVN_PASSWORD --trust-server-cert checkout https://jade.tilab.com/svn/jade/trunk/ .
           svn info
           ls -d */
-          cd trunk
           svn info --show-item revision > actRevNumber.txt
           svn log --xml --quiet | grep author | sort -u | perl -pe 's/.*>(.*?)<.*/$1 = /' > authors.txt
           cd ../..
+          ls -d */
 
       - name: Move files and directories
         run: |
