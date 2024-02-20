@@ -48,9 +48,6 @@ jobs:
           SVN_USER: ${{ secrets.JADE_USER }}
           SVN_PASSWORD: ${{ secrets.JADE_PASSWORD }}
         run: |        
-          git --version
-          git svn --version
-          svn --version
           mkdir jadeSVN
           svn --trust-server-cert update
           svn co https://jade.tilab.com/svn/jade/trunk
