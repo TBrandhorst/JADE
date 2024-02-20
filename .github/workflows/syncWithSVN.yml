@@ -13,7 +13,7 @@ on:
           
 jobs:
   sync:
-    runs-on: ubuntu-20.04 
+    runs-on: macos-latest
     steps:
       # Schritt 1: Checkout master branch
       - name: Checkout master branch
@@ -25,8 +25,8 @@ jobs:
       # Schritt 2: Copy editAuthorfile Jar
       - name: Copy editAuthorfile.jar from master
         run: |
-          sudo mkdir -p /temp_jars
-          sudo cp JADE/Update/editAuthorfile.jar /temp_jars/
+          mkdir -p /temp_jars
+          cp JADE/Update/editAuthorfile.jar /temp_jars/
 
       # Schritt 3: Checkout JADE-SVN-Tilab branch in ein separates Verzeichnis
       - name: Checkout JADE-SVN-Tilab branch
@@ -37,36 +37,21 @@ jobs:
 
       - name: Install SVN
         run: |
-          sudo apt-get update
-          sudo apt-get upgrade
-          sudo apt install -y subversion
-          if ! command -v svn &> /dev/null
-          then
-              echo "SVN installation failed"
-              exit 1
-          else
-              svn --version
-          fi
+          brew install subversion
+          svn --version
 
-      - name: Install Git and git-svn
+      - name: Install Git (includes git-svn)
         run: |
-            sudo apt-get update 
-            sudo apt-get upgrade
-            sudo apt install -y git-svn
-            if ! command -v git-svn &> /dev/null
-            then
-                echo "git-svn installation failed"
-                exit 1
-            else
-                git-svn --version
-            fi
+            brew install git
+            git --version
+            git svn --version
             
       - name: Checkout SVN repository
         env:
           SVN_USER: ${{ secrets.JADE_USER }}
           SVN_PASSWORD: ${{ secrets.JADE_PASSWORD }}
         run: |        
-          sudo mkdir jadeSVN
+          mkdir jadeSVN
           svn --trust-server-cert update
           svn co https://jade.tilab.com/svn/jade/trunk/ jadeSVN
           svn info
@@ -84,19 +69,20 @@ jobs:
   
       - name: Run Java application
         run: java -jar editAuthorfile.jar $PWD/authors.txt das
+
       - name: Sync with SVN repository
         run: |
-            git config svn.authorsfile $PWD/authors.txt;
-            RevNumber=$(grep -Eo '[0-9\.]+' actRevNumber.txt);
-            sub=20;
-            mkdir jadeSVN;
-            cd jadeSVN;
-            git svn init https://jade.tilab.com/svn/jade/trunk/;
-            RevNumber=$(($RevNumber-$sub));
-            git svn fetch -r$RevNumber:HEAD;
-            git remote add JADE-SVN-TILAB https://github.com/TBrandhorst/JADE.gitt;
-            #git fetch JADE-SVN-TILAB;
+            git config svn.authorsfile $PWD/authors.txt
+            RevNumber=$(grep -Eo '[0-9\.]+' actRevNumber.txt)
+            sub=20
+            mkdir jadeSVN
+            cd jadeSVN
+            git svn init https://jade.tilab.com/svn/jade/trunk/
+            RevNumber=$(($RevNumber-$sub))
+            git svn fetch -r$RevNumber:HEAD
+            git remote add JADE-SVN-TILAB https://github.com/TBrandhorst/JADE.git
             git svn rebase
+
       - name: Push changes to GitHub
         run: git push origin JADE-SVN-Tilab --force
         env:
