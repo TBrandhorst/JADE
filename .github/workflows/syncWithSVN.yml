@@ -42,7 +42,7 @@ jobs:
 
       - name: Install Git (includes git-svn)
         run: |
-            brew install git
+            brew install git-svn
             git --version
             git svn --version
             
