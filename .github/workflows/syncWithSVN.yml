@@ -70,11 +70,16 @@ jobs:
       - name: Move files and directories
         run: |
           mv "$ACT_REV_NUMBER_PATH" "$GITHUB_WORKSPACE/temp_jars/"
-          echo "ACT_REV_NUMBER_PATH=$$GITHUB_WORKSPACE/temp_jars/actRevNumber.txt" >> $GITHUB_ENV
+          echo "ACT_REV_NUMBER_PATH= $GITHUB_WORKSPACE/temp_jars/actRevNumber.txt" >> $GITHUB_ENV
+          echo "AUTHORS_PATH is set to $AUTHORS_PATH"
           mv "$AUTHORS_PATH" "$GITHUB_WORKSPACE/temp_jars/"
-          echo "AUTHORS_PATH=$$GITHUB_WORKSPACE/temp_jars/authors.txt" >> $GITHUB_ENV
+          echo "AUTHORS_PATH= $GITHUB_WORKSPACE/temp_jars/authors.txt" >> $GITHUB_ENV
+          echo "AUTHORS_PATH is set to $AUTHORS_PATH"
           rm -rf jade
-  
+          ls -d */
+          cd temp_jars
+          ls -d */
+          
       - name: Run Java application
         run: java -jar $EDIT_AUTHORFILE_JAR_PATH $AUTHORS_PATH
 
