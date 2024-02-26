@@ -71,7 +71,10 @@ jobs:
           cd temp_jars
           
       - name: Run Java application
-        run: java -jar $EDIT_AUTHORFILE_JAR_PATH authors.txt
+        
+        run: |
+            echo $AUTHORS_PATH
+            java -jar $EDIT_AUTHORFILE_JAR_PATH echo $AUTHORS_PATH
 
       - name: Sync with SVN repository
         run: |
