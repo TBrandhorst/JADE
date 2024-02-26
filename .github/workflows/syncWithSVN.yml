@@ -65,9 +65,8 @@ jobs:
           sudo svn log --trust-server-cert --xml | grep author | sort -u | perl -pe 's/.*>(.*?)<.*/$1 = /' > "$GITHUB_WORKSPACE/temp_jars/authors.txt"
           echo "ACT_REV_NUMBER_PATH=$GITHUB_WORKSPACE/temp_jars/actRevNumber.txt" >> $GITHUB_ENV
           echo "AUTHORS_PATH=$GITHUB_WORKSPACE/temp_jars/authors.txt" >> $GITHUB_ENV
-          cd ..
-          sudo rm -rf jadeSvn
           cd $GITHUB_WORKSPACE && pwd
+          sudo rm -rf jadeSvn
           cd temp_jars
           pwd
           find . -type f -name "*.txt"
