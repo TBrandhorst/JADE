@@ -65,7 +65,7 @@ jobs:
           echo "ACT_REV_NUMBER_PATH=$(pwd)/actRevNumber.txt" >> $GITHUB_ENV
           echo "AUTHORS_PATH=$(pwd)/authors.txt" >> $GITHUB_ENV
           ls -d */
-          cd ../..
+          cd JADE
           ls -d */
 
       - name: Move files and directories
