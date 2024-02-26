@@ -64,6 +64,7 @@ jobs:
           svn log --trust-server-cert --xml --quiet | grep author | sort -u | perl -pe 's/.*>(.*?)<.*/$1 = /' > authors.txt
           echo "ACT_REV_NUMBER_PATH=$(pwd)/actRevNumber.txt" >> $GITHUB_ENV
           echo "AUTHORS_PATH=$(pwd)/authors.txt" >> $GITHUB_ENV
+          ls -d */
           cd ../..
           ls -d */
 
