@@ -76,6 +76,7 @@ jobs:
           echo "AUTHORS_PATH= $GITHUB_WORKSPACE/temp_jars/authors.txt" >> $GITHUB_ENV
           echo "AUTHORS_PATH is set to $AUTHORS_PATH"
           rm -rf jade
+          rm -rf jadeSvn
           ls -d */
           cd temp_jars
           ls -d */
