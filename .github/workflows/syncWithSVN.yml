@@ -69,12 +69,12 @@ jobs:
           sudo rm -rf jadeSvn
           cd $GITHUB_WORKSPACE && pwd
           cd temp_jars
+          pwd
           find . -type f -name "*.txt"
           
       - name: Run Java application
         
         run: |
-            echo $AUTHORS_PATH
             java -jar $EDIT_AUTHORFILE_JAR_PATH echo $GITHUB_WORKSPACE/temp_jars/authors.txt
 
       - name: Sync with SVN repository
