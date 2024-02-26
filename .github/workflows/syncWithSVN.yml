@@ -80,12 +80,12 @@ jobs:
 
       - name: Sync with SVN repository
         run: |
-            git config svn.authorsfile $AUTHORS_PATH
-            RevNumber=$(grep -Eo '[0-9\.]+' $ACT_REV_NUMBER_PATH)
-            sub=20
             mkdir jadeSVN
             cd jadeSVN
             git svn init https://jade.tilab.com/svn/jade/trunk/
+            git config svn.authorsfile $AUTHORS_PATH
+            RevNumber=$(grep -Eo '[0-9\.]+' $ACT_REV_NUMBER_PATH)
+            sub=20
             RevNumber=$(($RevNumber-$sub))
             git svn fetch -r$RevNumber:HEAD
             git remote add JADE-SVN-TILAB https://github.com/TBrandhorst/JADE.git
