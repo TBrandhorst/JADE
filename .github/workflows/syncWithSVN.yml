@@ -68,11 +68,7 @@ jobs:
           cd ..
           sudo rm -rf jadeSvn
           cd $GITHUB_WORKSPACE && pwd
-          ls -d */
           cd temp_jars
-          sudo cat authors.txt
-          ls -d */
-
 
       - name: Move files and directories
         run: |
