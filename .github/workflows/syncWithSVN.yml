@@ -69,12 +69,9 @@ jobs:
           sudo rm -rf jadeSvn
           cd $GITHUB_WORKSPACE && pwd
           cd temp_jars
-
-      - name: Move files and directories
-        run: |
-          echo "AUTHORS_PATH is set to $AUTHORS_PATH     
+          
       - name: Run Java application
-        run: java -jar $EDIT_AUTHORFILE_JAR_PATH $GITHUB_WORKSPACE/temp_jars/authors.txt
+        run: java -jar $EDIT_AUTHORFILE_JAR_PATH authors.txt
 
       - name: Sync with SVN repository
         run: |
