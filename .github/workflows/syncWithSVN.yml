@@ -61,9 +61,9 @@ jobs:
           cd jadeSVN
           sudo svn --username $SVN_USER --password $SVN_PASSWORD --trust-server-cert checkout https://jade.tilab.com/svn/jade/trunk/ 
           cd trunk
-          svn info https://jade.tilab.com/svn/jade/trunk/ --trust-server-cert | grep '^Revision:' | awk '{print $2}' > actRevNumber.txt
-          svn log --trust-server-cert --xml | grep author | sort -u | perl -pe 's/.*>(.*?)<.*/$1 = /' > authors.txt
-          cat authors.txt
+          sudo svn info https://jade.tilab.com/svn/jade/trunk/ --trust-server-cert | grep '^Revision:' | awk '{print $2}' > actRevNumber.txt
+          sudo svn log --trust-server-cert --xml | grep author | sort -u | perl -pe 's/.*>(.*?)<.*/$1 = /' > authors.txt
+          sudo cat authors.txt
           cd ..;
           cd ..;
           echo "ACT_REV_NUMBER_PATH=$(pwd)/actRevNumber.txt" >> $GITHUB_ENV
