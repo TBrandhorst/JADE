@@ -75,7 +75,7 @@ jobs:
       - name: Run Java application
         
         run: |
-            java -jar $EDIT_AUTHORFILE_JAR_PATH echo $GITHUB_WORKSPACE/temp_jars/authors.txt
+            java -jar $EDIT_AUTHORFILE_JAR_PATH $GITHUB_WORKSPACE/temp_jars/authors.txt
 
       - name: Sync with SVN repository
         run: |
