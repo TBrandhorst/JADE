@@ -62,21 +62,21 @@ jobs:
           sudo svn --username $SVN_USER --password $SVN_PASSWORD --trust-server-cert checkout https://jade.tilab.com/svn/jade/trunk/ .
           svn info https://jade.tilab.com/svn/jade/trunk/ --trust-server-cert | grep '^Revision:' | awk '{print $2}' > actRevNumber.txt
           svn log --trust-server-cert --xml --quiet | grep author | sort -u | perl -pe 's/.*>(.*?)<.*/$1 = /' > authors.txt
-          echo "ACT_REV_NUMBER_PATH=$(pwd)/jadeSVN/actRevNumber.txt" >> $GITHUB_ENV
-          echo "AUTHORS_PATH=$(pwd)/jadeSVN/authors.txt" >> $GITHUB_ENV
+          echo "ACT_REV_NUMBER_PATH=$(pwd)/actRevNumber.txt" >> $GITHUB_ENV
+          echo "AUTHORS_PATH=$(pwd)/authors.txt" >> $GITHUB_ENV
           cd ../..
           ls -d */
 
       - name: Move files and directories
         run: |
-          find $ACT_REV_NUMBER_PATH  -type f -print0 | xargs -0 mv -t .
-          find $AUTHORS_PATH  -type f -print0 | xargs -0 mv -t .
-          echo "ACT_REV_NUMBER_PATH=$(pwd)/actRevNumber.txt" >> $GITHUB_ENV
-          echo "AUTHORS_PATH=$(pwd)/authors.txt" >> $GITHUB_ENV
+          mv "$ACT_REV_NUMBER_PATH" "$GITHUB_WORKSPACE/temp_jars/"
+          echo "ACT_REV_NUMBER_PATH=$$GITHUB_WORKSPACE/temp_jars/actRevNumber.txt" >> $GITHUB_ENV
+          mv "$AUTHORS_PATH" "$GITHUB_WORKSPACE/temp_jars/"
+          echo "AUTHORS_PATH=$$GITHUB_WORKSPACE/temp_jars/authors.txt" >> $GITHUB_ENV
           rm -rf jade
   
       - name: Run Java application
-        run: java -jar $EDIT_AUTHORFILE_JAR_PATH $AUTHORS_PATH
+        run: java -jar $EDIT_AUTHORFILE_JAR_PATH $GITHUB_WORKSPACE/temp_jars/
 
       - name: Sync with SVN repository
         run: |
