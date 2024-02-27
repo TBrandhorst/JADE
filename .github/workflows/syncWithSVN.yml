@@ -83,6 +83,7 @@ jobs:
             mkdir jadeSVN
             cd jadeSVN
             sudo git config --global http.sslVerify false
+            sudo git config svn.sslVerify false
             git svn init https://jade.tilab.com/svn/jade/trunk/
             git config svn.authorsfile $AUTHORS_PATH
             RevNumber=$(grep -Eo '[0-9\.]+' $ACT_REV_NUMBER_PATH)
