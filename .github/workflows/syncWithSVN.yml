@@ -80,18 +80,41 @@ jobs:
 
       - name: Sync with SVN repository
         run: |
-            mkdir jadeSVN
-            cd jadeSVN
-            sudo git config --global http.sslVerify false
-            git svn init https://jade.tilab.com/svn/jade/trunk/
-            sudo git config svn.sslVerify false
-            git config svn.authorsfile $AUTHORS_PATH
-            RevNumber=$(grep -Eo '[0-9\.]+' $ACT_REV_NUMBER_PATH)
-            sub=20
-            RevNumber=$(($RevNumber-$sub))
-            git svn fetch -r$RevNumber:HEAD
-            git remote add JADE-SVN-TILAB https://github.com/TBrandhorst/JADE.git
-            git svn rebase
+          mkdir jadeSVN
+          cd jadeSVN
+          git config --global http.sslVerify false
+          expect -c "
+          set timeout -1
+          spawn git svn init https://jade.tilab.com/svn/jade/trunk/
+          expect {
+            \"(R)eject, accept (t)emporarily or accept (p)ermanently?\" {
+              send \"p\r\"
+              exp_continue
+            }
+            eof
+          }
+          "   
+          git config --global svn.sslVerify false
+          git config svn.authorsfile $AUTHORS_PATH
+          RevNumber=$(grep -Eo '[0-9\.]+' $ACT_REV_NUMBER_PATH)
+          sub=20
+          RevNumber=$(($RevNumber-$sub))        
+          expect -c "
+          set timeout -1
+          spawn git svn fetch -r$RevNumber:HEAD
+          expect {
+            \"(R)eject, accept (t)emporarily or accept (p)ermanently?\" {
+              send \"p\r\"
+              exp_continue
+            }
+            eof
+          }
+          "      
+          git remote add JADE-SVN-TILAB https://github.com/TBrandhorst/JADE.git
+          git svn rebase
+              git remote add JADE-SVN-TILAB https://github.com/TBrandhorst/JADE.git
+              git svn rebase
+              
 
     #  - name: Push changes to GitHub
       #  run: git push origin JADE-SVN-Tilab --force
