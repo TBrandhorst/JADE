@@ -99,21 +99,9 @@ jobs:
           RevNumber=$(grep -Eo '[0-9\.]+' $ACT_REV_NUMBER_PATH)
           sub=20
           RevNumber=$(($RevNumber-$sub))        
-          expect -c "
-          set timeout -1
-          spawn git svn fetch -r$RevNumber:HEAD
-          expect {
-            \"(R)eject, accept (t)emporarily or accept (p)ermanently?\" {
-              send \"p\r\"
-              exp_continue
-            }
-            eof
-          }
-          "      
+          git svn fetch -r$RevNumber:HEAD    
           git remote add JADE-SVN-TILAB https://github.com/TBrandhorst/JADE.git
           git svn rebase
-              git remote add JADE-SVN-TILAB https://github.com/TBrandhorst/JADE.git
-              git svn rebase
               
 
     #  - name: Push changes to GitHub
