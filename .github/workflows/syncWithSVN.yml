@@ -51,6 +51,10 @@ jobs:
       - name: Install Git (includes git-svn)
         run: |
             brew install git-svn
+
+      - name: Install Git (includes git-svn)
+        run: |
+            brew install svn2git
             
       - name: Checkout SVN repository
         env:
