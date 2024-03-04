@@ -84,6 +84,8 @@ jobs:
             sudo cat $GITHUB_WORKSPACE/temp_jars/authors.txt
 
       - name: Sync with SVN repository
+        env:
+          GIT_SSL_NO_VERIFY: "true"
         run: |
           mkdir jadeSVN
           cd jadeSVN
