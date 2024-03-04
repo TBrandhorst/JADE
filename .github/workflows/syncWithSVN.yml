@@ -91,7 +91,7 @@ jobs:
             mkdir jadeSVN
             cd jadeSVN
             git config --global http.sslVerify false
-            svn2git https://jade.tilab.com/svn/jade/trunk/ --trunk trunk --nobranches --notags --username $SVN_USER --password $SVN_PASSWORD
+            svn2git https://jade.tilab.com/svn/jade/trunk/ --username $SVN_USER --password $SVN_PASSWORD --rootistrunk
             git config svn.authorsfile $AUTHORS_PATH
             RevNumber=$(grep -Eo '[0-9\.]+' $ACT_REV_NUMBER_PATH)
             sub=20
