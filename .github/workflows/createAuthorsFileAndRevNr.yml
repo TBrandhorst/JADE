@@ -51,11 +51,6 @@ jobs:
       - name: Install Git (includes git-svn)
         run: |
             brew install git-svn
-
-      - name: Install snv2git (includes git-svn)
-        run: |
-            brew install ruby
-            gem install svn2git
             
       - name: Checkout SVN repository
         env:
@@ -76,41 +71,25 @@ jobs:
           pwd
           find . -type f -name "*.txt"
           
-      - name: Run Java application
-        
+      - name: Run Java application to create authorfile       
         run: |
             sudo cat $GITHUB_WORKSPACE/temp_jars/authors.txt
             java -jar $EDIT_AUTHORFILE_JAR_PATH $GITHUB_WORKSPACE/temp_jars/authors.txt
             sudo cat $GITHUB_WORKSPACE/temp_jars/authors.txt
 
-      - name: Sync with SVN repository
-        env:
-          GIT_SSL_NO_VERIFY: "true"
-        run: |
-          mkdir jadeSVN
-          cd jadeSVN
-          git config --global http.sslVerify false
-          expect -c "
-          set timeout -1
-          spawn git svn init https://jade.tilab.com/svn/jade/trunk/
-          expect {
-            \"(R)eject, accept (t)emporarily or accept (p)ermanently?\" {
-              send \"p\r\"
-              exp_continue
-            }
-            eof
-          }
-          "   
-          git config --global svn.sslVerify false
-          git config svn.authorsfile $AUTHORS_PATH
-          RevNumber=$(grep -Eo '[0-9\.]+' $ACT_REV_NUMBER_PATH)
-          sub=20
-          RevNumber=$(($RevNumber-$sub))        
-          git svn fetch -r$RevNumber:HEAD    
-          git remote add JADE-SVN-TILAB https://github.com/TBrandhorst/JADE.git
-          git svn rebase
-            
-    #  - name: Push changes to GitHub
-      #  run: git push origin JADE-SVN-Tilab --force
-      #  env:
-         #   GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
+      - name: Upload Authorfile
+        uses: actions/upload-artifact@v3
+        with:
+            name: authorFile
+            path: $GITHUB_WORKSPACE/temp_jars/authors.txt
+
+      - name: Upload ActRevNumber
+        uses: actions/upload-artifact@v3
+        with:
+            name: revNumber
+            path: $GITHUB_WORKSPACE/temp_jars/actRevNumber.txt
+
+
+          
+
+
