@@ -81,13 +81,13 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
             name: authorFile
-            path: $GITHUB_WORKSPACE/temp_jars/authors.txt
+            path:  ${{ env.GITHUB_WORKSPACE }}/temp_jars/authors.txt
 
       - name: Upload ActRevNumber
         uses: actions/upload-artifact@v3
         with:
             name: revNumber
-            path: $GITHUB_WORKSPACE/temp_jars/actRevNumber.txt
+            path: ${{ env.GITHUB_WORKSPACE }}/temp_jars/actRevNumber.txt
 
 
           
