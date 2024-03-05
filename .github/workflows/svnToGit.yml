@@ -13,22 +13,11 @@ on:
           
 jobs:
   sync:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
+    container:
+      image: alpine:latest
     steps:
 
-      - name: Set up JAVA 
-        uses: actions/setup-java@v3
-        with: # running setup-java overwrites the settings.xml
-              # For building java version 8, required by JADE
-          distribution: 'temurin'
-          java-version: '11'
-          
-      # Schritt 1: Checkout master branch
-      - name: Checkout master branch
-        uses: actions/checkout@v4
-        with:
-          ref: master
-          path: JADE
 
       # Schritt 2: Copy editAuthorfile Jar
       - name: Copy editAuthorfile.jar from master
@@ -37,12 +26,6 @@ jobs:
           cp JADE/Update/editAuthorfile.jar $GITHUB_WORKSPACE/temp_jars
           echo "EDIT_AUTHORFILE_JAR_PATH=$GITHUB_WORKSPACE/temp_jars/editAuthorfile.jar" >> $GITHUB_ENV
           
-      # Schritt 3: Checkout JADE-SVN-Tilab branch in ein separates Verzeichnis
-      - name: Checkout JADE-SVN-Tilab branch
-        uses: actions/checkout@v4
-        with:
-          ref: JADE-SVN-TILAB
-          path: jade_svn_tilab     
 
       - name: Install SVN
         run: |
