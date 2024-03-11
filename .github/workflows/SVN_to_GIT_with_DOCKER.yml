@@ -1,0 +1,24 @@
+name: SVN to GitHub Mirror with Docker
+on:
+  workflow_dispatch:
+      inputs:
+        environment:
+          description: 'Umgebung, in der der Workflow ausgeführt wird'
+          required: true
+          default: 'production'
+          
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    container:
+      image: your-docker-image:tag
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # Herunterladen der Artefakte (svn-Dateien)
+      - name: Herunterladen der Artefakte
+        uses: actions/download-artifact@v2
+        with:
+          name: svn-files
+          path: ${{ github.workspace }}/temp_jars
