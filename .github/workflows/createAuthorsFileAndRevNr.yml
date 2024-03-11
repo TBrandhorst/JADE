@@ -80,7 +80,7 @@ jobs:
       - name: Upload Authorfile
         uses: actions/upload-artifact@v3
         with:
-            name: authorFileAnd
+            name: authorFile
             path:  ${{ github.workspace }}/temp_jars/authors.txt
 
       - name: Upload ActRevNumber
