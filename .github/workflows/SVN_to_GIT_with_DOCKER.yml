@@ -21,7 +21,7 @@ jobs:
         run: echo "Der Name des Repositories ist ${{ github.repository }}"
 
       # Herunterladen der Artefakte (svn-Dateien)
-      - name: Herunterladen der Artefakte
+      - name: Herunterladen der author.txt
         uses: actions/download-artifact@v4
         with:
           name: authorFileAnd
@@ -29,8 +29,20 @@ jobs:
           run-id: ${{ inputs.runID }}"
           repository: ${{ github.repository }}/actions/runs/
           github-token: ${{  secrets.TOKEN_GIT }} # token with actions:read permissions on target repo
+
+      - name: Herunterladen der actRevNumber.txt
+        uses: actions/download-artifact@v4
+        with:
+          name: revNumber 
+          path: ${{ github.workspace }}/temp_jars
+          run-id: ${{ inputs.runID }}"
+          repository: ${{ github.repository }}/actions/runs/
+          github-token: ${{  secrets.TOKEN_GIT }} # token with actions:read permissions on target repo
+      
       - name: Display structure of downloaded files
         run: ls -R ${{ github.workspace }}/temp_jars      
+      
       - name: Zeige den Inhalt des Artifacts an
         run: |
           cat ${{ github.workspace }}/temp_jars/authors.txt
+          cat ${{ github.workspace }}/temp_jars/actRevNumber.txt
