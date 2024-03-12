@@ -29,6 +29,12 @@ jobs:
           run-id: ${{ inputs.runID }}"
           repository: ${{ github.repository }}/actions/runs/
           github-token: ${{  secrets.TOKEN_GIT }} # token with actions:read permissions on target repo
+
+      - name: Entpacken der Dateien
+        run: |
+          unzip ${{ github.workspace }}/temp_jars/*.zip -d ${{ github.workspace }}/temp_jars
+          mv ${{ github.workspace }}/temp_jars/* ${{ github.workspace }}/temp_jars/artifact_folder_name
+
           
       - name: Zeige den Inhalt des Artifacts an
         run: |
