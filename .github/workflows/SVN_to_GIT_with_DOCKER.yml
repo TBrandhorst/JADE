@@ -20,5 +20,9 @@ jobs:
       - name: Herunterladen der Artefakte
         uses: actions/download-artifact@v2
         with:
-          name: svn-files
+          name: authorFileAnd
           path: ${{ github.workspace }}/temp_jars
+
+      - name: Zeige den Inhalt des Artifacts an
+        run: |
+          cat ${{ github.workspace }}/temp_jars
