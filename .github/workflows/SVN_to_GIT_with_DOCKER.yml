@@ -29,7 +29,8 @@ jobs:
           run-id: ${{ inputs.runID }}"
           repository: ${{ github.repository }}/actions/runs/
           github-token: ${{  secrets.TOKEN_GIT }} # token with actions:read permissions on target repo
-
+      - name: Display structure of downloaded files
+        run: ls -R ${{ github.workspace }}/temp_jars
       - name: Entpacken der Dateien
         run: |
           unzip ${{ github.workspace }}/temp_jars/*.zip -d ${{ github.workspace }}/temp_jars
