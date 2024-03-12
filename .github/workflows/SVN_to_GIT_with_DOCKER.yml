@@ -2,10 +2,14 @@ name: SVN to GitHub Mirror with Docker
 on:
   workflow_dispatch:
       inputs:
-        environment:
-          description: 'Umgebung, in der der Workflow ausgeführt wird'
+        logLevel:
+          description: 'Log level'
           required: true
-          default: 'production'
+          default: 'warning'
+        runID:
+          description: 'run_id of the recent run of the github/workflows/createAuthorsFileAndRevNr.yml'
+          required: true
+          default: '-1'
           
 jobs:
   sync:
@@ -20,7 +24,9 @@ jobs:
         with:
           name: authorFileAnd
           path: ${{ github.workspace }}/temp_jars
-
+          run-id: ${{ inputs.runID }}"
+          github-token: ${{  secrets.TOKEN_GIT }} # token with actions:read permissions on target repo
+          
       - name: Zeige den Inhalt des Artifacts an
         run: |
           cat ${{ github.workspace }}/temp_jars
