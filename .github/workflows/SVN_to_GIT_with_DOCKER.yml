@@ -17,10 +17,12 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+      - name: Benutzerdefinierter Schritt - Ausgabe des Repository-Namens
+        run: echo "Der Name des Repositories ist ${{ github.repository }}"
 
       # Herunterladen der Artefakte (svn-Dateien)
       - name: Herunterladen der Artefakte
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: authorFileAnd
           path: ${{ github.workspace }}/temp_jars
