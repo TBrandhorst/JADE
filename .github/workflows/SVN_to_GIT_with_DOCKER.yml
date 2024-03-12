@@ -27,6 +27,7 @@ jobs:
           name: authorFileAnd
           path: ${{ github.workspace }}/temp_jars
           run-id: ${{ inputs.runID }}"
+          repository: ${{ github.repository }}/actions/runs/
           github-token: ${{  secrets.TOKEN_GIT }} # token with actions:read permissions on target repo
           
       - name: Zeige den Inhalt des Artifacts an
