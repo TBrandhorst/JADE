@@ -17,8 +17,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Benutzerdefinierter Schritt - Ausgabe des Repository-Namens
-        run: echo "Der Name des Repositories ist ${{ github.repository }}"
 
       # Herunterladen der Artefakte (svn-Dateien)
       - name: Herunterladen der author.txt
@@ -46,3 +44,10 @@ jobs:
         run: |
           cat ${{ github.workspace }}/temp_jars/authors.txt
           cat ${{ github.workspace }}/temp_jars/actRevNumber.txt
+      - name: Merge svn with Github
+        uses: TBrandhorst/svnToGitJade@v1
+        with:
+            authorFilePath: ${{ github.workspace }}/temp_jars/authors.txt
+            revNumberFilePath: ${{ github.workspace }}/temp_jars/actRevNumber.txt
+            
+      
