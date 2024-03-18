@@ -1,0 +1,18 @@
+# action.yml
+name: 'SVN to GIT-Merge'
+description: 'Clones the JADE TILAB Repository with git-svn and force pushes it to the JADE-TILAB Branch'
+inputs:
+  authorFilePath:  
+    description: 'github path to author file'
+    required: true
+    default: 'github path to author file'
+  revNumberFilePath:  
+    description: 'github path to revNumber file'
+    required: true
+    default: 'github path to author file'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.authorFilePath}}
+    - ${{ inputs.revNumberFilePath }}
